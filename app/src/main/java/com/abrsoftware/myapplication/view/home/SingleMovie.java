@@ -1,6 +1,8 @@
 package com.abrsoftware.myapplication.view.home;
 
-public class SingleMovie {
+import java.io.Serializable;
+
+public class SingleMovie implements Serializable {
     private String title;
     private String overview;
     private String release_date;

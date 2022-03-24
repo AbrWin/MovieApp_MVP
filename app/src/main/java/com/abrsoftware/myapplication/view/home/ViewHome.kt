@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.abrsoftware.myapplication.MainActivity
 import com.abrsoftware.myapplication.R
 import com.abrsoftware.myapplication.adapters.AdapterMovies
 import com.abrsoftware.myapplication.view.BaseView
@@ -67,11 +68,12 @@ class ViewHome : BaseView(), HomeMvp.View, AdapterMovies.onItemClickListener {
                 initAdapter((responce as ListMoviesPopular).results, popularRecycler)
             }
         }
-
     }
 
     override fun onClickItem(holder: AdapterMovies.MoviewHolder?, view: View?) {
-
+        val bundle = Bundle()
+        bundle.putSerializable("singlemovie", holder!!.movie)
+        (activity as MainActivity).changeFragment(MovieDetail::class.java, bundle)
     }
 
     fun initAdapter(movies: ArrayList<SingleMovie>, recycler: RecyclerView){
@@ -79,7 +81,6 @@ class ViewHome : BaseView(), HomeMvp.View, AdapterMovies.onItemClickListener {
         val linearLayout = LinearLayoutManager(context)
         linearLayout.orientation = LinearLayoutManager.HORIZONTAL
         recycler.layoutManager = linearLayout
-        recycler!!.adapter = adapterBranch
-        adapterBranch.notifyDataSetChanged()
+        recycler.adapter = adapterBranch
     }
 }

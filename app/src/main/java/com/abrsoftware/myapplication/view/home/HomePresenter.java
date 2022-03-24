@@ -56,22 +56,17 @@ public class HomePresenter implements HomeMvp.Presenter{
     }
 
     @Override
-    public void getRecommendation(String page, String numMoview) {
-        repository.getRecommendation(page, numMoview);
+    public void getPolular(String path) {
+        repository.getPolular(path);
     }
 
     @Override
-    public void getPolular(String userId) {
-        repository.getPolular(userId);
+    public void getLastest(String path) {
+        repository.getLastest(path);
     }
 
     @Override
-    public void getLastest(String userId) {
-        repository.getLastest(userId);
-    }
-
-    @Override
-    public void getUpcomming(String userId) {
-        repository.getPolular(userId);
+    public void getUpcomming(String path) {
+        repository.getUpcomming(path);
     }
 }

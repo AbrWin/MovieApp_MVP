@@ -18,22 +18,19 @@ public class HomeMvp {
 
         void onEventMainThread(GeneralEvent event);
 
-        void getRecommendation(String page, String numMoview);
+        void getPolular(String page);
 
-        void getPolular(String userId);
+        void getLastest(String page);
 
-        void getLastest(String userId);
-
-        void getUpcomming(String userId);
+        void getUpcomming(String page);
     }
 
     public interface Repository {
-        void getRecommendation(String page, String numMoview);
 
-        void getPolular(String userId);
+        void getPolular(String page);
 
-        void getLastest(String userId);
+        void getLastest(String page);
 
-        void getUpcomming(String userId);
+        void getUpcomming(String page);
     }
 }

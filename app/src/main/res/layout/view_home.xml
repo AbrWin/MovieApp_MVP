@@ -24,7 +24,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
-                android:text="Today's recommendation"
+                android:text="The Latest movie"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="@color/white"
                 android:textSize="22sp"
@@ -46,36 +46,6 @@
 
 
             <TextView
-                android:id="@+id/labelLastest"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
-                android:text="Latest movies"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/includeRecomm" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lastestRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/labelLastest"
-                tools:listitem="@layout/item_movie" />
-
-            <TextView
                 android:id="@+id/labelPopular"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -89,7 +59,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lastestRecycler" />
+                app:layout_constraintTop_toBottomOf="@+id/includeRecomm" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popularRecycler"
@@ -112,7 +82,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
-                android:text="Popular movies"
+                android:text="Upcomming movies"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -127,9 +97,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
                 android:orientation="horizontal"
-                android:layout_marginBottom="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

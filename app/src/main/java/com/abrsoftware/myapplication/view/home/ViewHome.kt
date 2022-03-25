@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.view_home.*
 class ViewHome : BaseView(), HomeMvp.View, AdapterMovies.onItemClickListener, View.OnClickListener {
 
     lateinit var presenter: HomePresenter
+    lateinit var singleMovie: Movie
+    val bundle = Bundle()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter = HomePresenter(this)
@@ -34,6 +36,7 @@ class ViewHome : BaseView(), HomeMvp.View, AdapterMovies.onItemClickListener, Vi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         retryBtn.setOnClickListener(this)
+        includeRecomm.setOnClickListener(this)
         if(Connectivity.isOnline(context)){
             showContets(true)
             getInfoService()
@@ -70,12 +73,12 @@ class ViewHome : BaseView(), HomeMvp.View, AdapterMovies.onItemClickListener, Vi
     override fun <T : Any?> successResponce(responce: T) {
         when (responce) {
             is Movie -> {
-                val movie = responce
-                title.text = movie.title
-                overview.text = movie.overview
-                if (!TextUtils.isEmpty(movie.poster_path)) {
+                singleMovie = responce
+                title.text = singleMovie.title
+                overview.text = singleMovie.overview
+                if (!TextUtils.isEmpty(singleMovie.poster_path)) {
                     val urlImg =
-                        context!!.getString(R.string.img_end_point) + movie.poster_path
+                        context!!.getString(R.string.img_end_point) + singleMovie.poster_path
                     Glide.with(context)
                         .load(urlImg)
                         .centerCrop().crossFade()
@@ -94,9 +97,7 @@ class ViewHome : BaseView(), HomeMvp.View, AdapterMovies.onItemClickListener, Vi
     }
 
     override fun onClickItem(holder: AdapterMovies.MoviewHolder?, view: View?) {
-        val bundle = Bundle()
-        bundle.putSerializable("singlemovie", holder!!.movie)
-        (activity as MainActivity).changeFragment(MovieDetail::class.java, bundle)
+        sendDetail(holder!!.movie)
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
@@ -119,6 +120,14 @@ class ViewHome : BaseView(), HomeMvp.View, AdapterMovies.onItemClickListener, Vi
                     Toast.makeText(context, "NO INTERNET",Toast.LENGTH_SHORT).show()
                 }
             }
+            R.id.includeRecomm->{
+                sendDetail(singleMovie)
+            }
         }
+    }
+
+    private fun sendDetail(movie: Movie?){
+        bundle.putSerializable("singlemovie", movie)
+        (activity as MainActivity).changeFragment(MovieDetail::class.java, bundle)
     }
 }

@@ -1,5 +1,6 @@
 package com.abrsoftware.myapplication.view.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -19,10 +20,11 @@ class MovieDetail : BaseView() {
         return rootView
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if(arguments!= null && arguments!!.getSerializable("singlemovie") != null){
-            val singleMovie =  requireArguments().getSerializable("singlemovie") as Movie
+            val singleMovie =  arguments!!.getSerializable("singlemovie") as Movie
             title.text = singleMovie.title
             releaseDate.text = singleMovie.release_date
             description.text = singleMovie.overview

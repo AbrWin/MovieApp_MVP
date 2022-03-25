@@ -10,10 +10,10 @@ import java.io.Serializable
 @Entity(tableName = "movies", indices = [Index(value = ["movieId"], unique = true)])
 data class Movie(@PrimaryKey(autoGenerate = true)
                  var movieId: Int? = null,
-                 val title: String?,
+                 var title: String?,
                  var release_date: String?,
                  var poster_path: String?,
-                 val overview: String?,
+                 var overview: String?,
                  var type: String?) : Parcelable, Serializable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,

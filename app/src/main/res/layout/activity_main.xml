@@ -7,7 +7,7 @@
     tools:context=".view.home.ViewHome">
 
     <FrameLayout
-        android:id="@+id/layout_container"
+        android:id="@+id/layout_container_new"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

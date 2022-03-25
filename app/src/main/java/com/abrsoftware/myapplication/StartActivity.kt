@@ -15,8 +15,10 @@ class StartActivity: AppCompatActivity() {
             override fun run() {
                 val intent = Intent(applicationContext, MainActivity::class.java)
                 handler.removeCallbacks(this)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent)
+                finish()
             }
-        },1500)
+        },700)
     }
 }

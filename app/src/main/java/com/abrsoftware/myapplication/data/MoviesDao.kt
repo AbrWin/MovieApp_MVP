@@ -9,6 +9,9 @@ interface MoviesDao {
     @Insert
     fun insertMovies(movie: Movie)
 
-    @Query("Select * from movies")
-    fun gelAllUsers(): List<Movie>
+    @Query("Select * from movies WHERE type LIKE :search")
+    fun gelAllMovies(search: String): List<Movie>
+
+    @Insert
+    fun insertMovies(movies: List<Movie>)
 }

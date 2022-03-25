@@ -1,15 +1,18 @@
 package com.abrsoftware.myapplication.view.home;
 
+import com.abrsoftware.myapplication.data.Movie;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListMoviesPopular {
-    private ArrayList<SingleMovie> results;
+    private List<Movie> results;
 
-    public ArrayList<SingleMovie> getResults() {
+    public List<Movie> getResults() {
         return results;
     }
 
-    public void setResults(ArrayList<SingleMovie> results) {
+    public void setResults(List<Movie> results) {
         this.results = results;
     }
 }

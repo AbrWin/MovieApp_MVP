@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.abrsoftware.myapplication.R
+import com.abrsoftware.myapplication.data.Movie
 import com.abrsoftware.myapplication.view.BaseView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -21,7 +22,7 @@ class MovieDetail : BaseView() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if(arguments!= null && arguments!!.getSerializable("singlemovie") != null){
-            val singleMovie =  requireArguments().getSerializable("singlemovie") as SingleMovie
+            val singleMovie =  requireArguments().getSerializable("singlemovie") as Movie
             title.text = singleMovie.title
             releaseDate.text = singleMovie.release_date
             description.text = singleMovie.overview

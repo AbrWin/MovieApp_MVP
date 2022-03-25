@@ -19,6 +19,6 @@ class StartActivity: AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-        },700)
+        },600)
     }
 }

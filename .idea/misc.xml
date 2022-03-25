@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/back_btn_neu.xml" value="0.167" />
         <entry key="app/src/main/res/drawable-v24/back_content.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/back_btn_neu.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/ic_movie_ticket.xml" value="0.2085" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/include_recommendation.xml" value="0.335" />

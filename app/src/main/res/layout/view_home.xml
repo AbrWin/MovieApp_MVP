@@ -14,6 +14,8 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contenPrincipal"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -108,5 +110,25 @@
                 tools:listitem="@layout/item_movie" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/contentRetry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="150dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/retryBtn"
+                android:layout_width="150dp"
+                android:text="Retry"
+                android:layout_gravity="center"
+                android:background="@drawable/back_btn_neu"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
+
+
 </androidx.core.widget.NestedScrollView>

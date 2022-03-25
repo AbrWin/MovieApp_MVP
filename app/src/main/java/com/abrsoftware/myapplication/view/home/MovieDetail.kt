@@ -28,7 +28,7 @@ class MovieDetail : BaseView() {
             description.text = singleMovie.overview
             if (!TextUtils.isEmpty(singleMovie.poster_path)) {
                 val urlImg =
-                    requireContext().getString(R.string.img_end_point) + singleMovie.poster_path
+                    context!!.getString(R.string.img_end_point) + singleMovie.poster_path
                 Glide.with(context)
                     .load(urlImg)
                     .centerCrop().crossFade()

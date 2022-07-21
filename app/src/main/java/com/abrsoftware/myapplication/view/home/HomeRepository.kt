@@ -45,7 +45,7 @@ class HomeRepository : PostEvent(), HomeMvp.Repository {
             listMoviesPopular.results = db.gelAllMovies("popular")
             postEvent(GeneralEvent.SUCCESS_RESPONCE, listMoviesPopular)
         } else {
-            CoroutineScope(Dispatchers.Unconfined).launch {
+            CoroutineScope(Dispatchers.Main).launch {
                 val response = apiService.apiClient!!.getPopular(
                     page,
                     MyApplication.getContext().getString(R.string.api_key)
@@ -75,13 +75,13 @@ class HomeRepository : PostEvent(), HomeMvp.Repository {
             return
         }
 
-        CoroutineScope(Dispatchers.Unconfined).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             if (db.gelAllMovies("lastest").size > 0) {
                 Log.d("MSJ", "GET lastest")
                 postEvent(GeneralEvent.SUCCESS_RESPONCE, db.gelAllMovies("lastest").get(0))
             } else {
                 val response = apiService.apiClient!!.getLastest(
-                    page, MyApplication.getContext().getString(R.string.api_key)
+                    page, "8ac3bea5e0e63f1b4c5f608d2f31b372"
                 )
                 if (response!!.isSuccessful) {
                     val movie = gson.fromJson(response.body(), Movie::class.java)
@@ -109,7 +109,7 @@ class HomeRepository : PostEvent(), HomeMvp.Repository {
             return
         }
 
-        CoroutineScope(Dispatchers.Unconfined).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             if (db.gelAllMovies("upcomming").size > 0) {
                 Log.d("MSJ", "GET upcomming")
                 val listMoviesUpcomming = ListMoviesUpcomming()

@@ -7,7 +7,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class ApiService {
     var apiClient: ApiServiceInterface? = null
-
     fun initApiService() {
         val builder = Retrofit.Builder()
             .baseUrl(MyApplication.getContext().getString(R.string.api_end_point))

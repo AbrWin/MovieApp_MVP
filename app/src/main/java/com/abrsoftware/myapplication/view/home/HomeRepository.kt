@@ -81,7 +81,7 @@ class HomeRepository : PostEvent(), HomeMvp.Repository {
                 postEvent(GeneralEvent.SUCCESS_RESPONCE, db.gelAllMovies("lastest").get(0))
             } else {
                 val response = apiService.apiClient!!.getLastest(
-                    page, "8ac3bea5e0e63f1b4c5f608d2f31b372"
+                    page, MyApplication.getContext().getString(R.string.api_key)
                 )
                 if (response!!.isSuccessful) {
                     val movie = gson.fromJson(response.body(), Movie::class.java)

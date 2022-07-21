@@ -25,8 +25,6 @@ class AdapterMovies(
 
     override fun onBindViewHolder(holder: MoviewHolder, position: Int) {
         holder.movie = movies.get(position)
-        //holder.itemView.titleMoview.text = holder.movie!!.title
-        //holder.itemView.daterelease.text = holder.movie!!.release_date
         if (!TextUtils.isEmpty(holder.movie!!.title)) {
             val urlImg = context.getString(R.string.img_end_point) + holder.movie!!.poster_path
             Glide.with(context)

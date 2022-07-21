@@ -1,5 +1,6 @@
 package com.abrsoftware.myapplication.view.home
 
+import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.os.Build
 import android.util.Log
@@ -15,6 +16,9 @@ import com.abrsoftware.myapplication.service.ApiService
 import com.abrsoftware.myapplication.service.ApiServiceSingleton
 import com.abrsoftware.myapplication.utils.Connectivity
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +29,8 @@ class HomeRepository : PostEvent(), HomeMvp.Repository {
     private val apiService: ApiService
     private val db: MoviesDao
 
-    override fun getPolular(page: String) {
+    @SuppressLint("NewApi")
+    override fun getPolular(page: String?) {
         if (!Connectivity.isOnline(MyApplication.getContext())) {
             postEvent(
                 GeneralEvent.ERROR,
@@ -34,36 +39,34 @@ class HomeRepository : PostEvent(), HomeMvp.Repository {
             return
         }
 
-        if(db.gelAllMovies("popular").size > 0){
+        if (db.gelAllMovies("popular").size > 0) {
             Log.d("MSJ", "GET popular")
             val listMoviesPopular = ListMoviesPopular()
             listMoviesPopular.results = db.gelAllMovies("popular")
             postEvent(GeneralEvent.SUCCESS_RESPONCE, listMoviesPopular)
-        }else{
-            apiService.apiClient.getPopular(
-                page,
-                MyApplication.getContext().getString(R.string.api_key)
-            ).enqueue(object : Callback<String?> {
-                @RequiresApi(Build.VERSION_CODES.N)
-                override fun onResponse(call: Call<String?>, response: Response<String?>) {
-                    val responce = gson.fromJson(response.body(), ListMoviesPopular::class.java)
-                    val listPopular = responce as ListMoviesPopular
-                    listPopular.results.stream().forEach { elt -> elt.type = "popular" }
-                    insertMovies(listPopular.results)
+        } else {
+            CoroutineScope(Dispatchers.Unconfined).launch {
+                val response = apiService.apiClient!!.getPopular(
+                    page,
+                    MyApplication.getContext().getString(R.string.api_key)
+                )
+                if (response!!.isSuccessful) {
+                    val movies = gson.fromJson(response.body()!!, ListMoviesPopular::class.java)
+                    val listPopular = movies as ListMoviesPopular
+                    listPopular.results?.stream()!!.forEach { elt -> elt.type = "popular" }
+                    insertMovies(listPopular.results!!)
                     postEvent(GeneralEvent.SUCCESS_RESPONCE, listPopular)
-                }
-
-                override fun onFailure(call: Call<String?>, t: Throwable) {
+                } else {
                     postEvent(
                         GeneralEvent.ERROR,
                         MyApplication.getContext().getString(R.string.errorConnectivity)
                     )
                 }
-            })
+            }
         }
     }
 
-    override fun getLastest(page: String) {
+    override fun getLastest(page: String?) {
         if (!Connectivity.isOnline(MyApplication.getContext())) {
             postEvent(
                 GeneralEvent.ERROR,
@@ -72,33 +75,32 @@ class HomeRepository : PostEvent(), HomeMvp.Repository {
             return
         }
 
-        if(db.gelAllMovies("lastest").size > 0){
-            Log.d("MSJ", "GET lastest")
-            postEvent(GeneralEvent.SUCCESS_RESPONCE, db.gelAllMovies("lastest").get(0))
-        }else{
-            apiService.apiClient.getLastest(
-                page,
-                MyApplication.getContext().getString(R.string.api_key)
-            ).enqueue(object : Callback<String?> {
-                override fun onResponse(call: Call<String?>, response: Response<String?>) {
-                    val responce = gson.fromJson(response.body(), Movie::class.java)
-                    val lastest = (responce as Movie)
+        CoroutineScope(Dispatchers.Unconfined).launch {
+            if (db.gelAllMovies("lastest").size > 0) {
+                Log.d("MSJ", "GET lastest")
+                postEvent(GeneralEvent.SUCCESS_RESPONCE, db.gelAllMovies("lastest").get(0))
+            } else {
+                val response = apiService.apiClient!!.getLastest(
+                    page, MyApplication.getContext().getString(R.string.api_key)
+                )
+                if (response!!.isSuccessful) {
+                    val movie = gson.fromJson(response.body(), Movie::class.java)
+                    val lastest = (movie as Movie)
                     lastest.type = "lastest"
                     insertUser(lastest)
-                    postEvent(GeneralEvent.SUCCESS_RESPONCE, responce)
-                }
-
-                override fun onFailure(call: Call<String?>, t: Throwable) {
+                    postEvent(GeneralEvent.SUCCESS_RESPONCE, movie)
+                } else {
                     postEvent(
                         GeneralEvent.ERROR,
                         MyApplication.getContext().getString(R.string.errorConnectivity)
                     )
                 }
-            })
+            }
         }
     }
 
-    override fun getUpcomming(page: String) {
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun getUpcomming(page: String?) {
         if (!Connectivity.isOnline(MyApplication.getContext())) {
             postEvent(
                 GeneralEvent.ERROR,
@@ -107,37 +109,35 @@ class HomeRepository : PostEvent(), HomeMvp.Repository {
             return
         }
 
-        if(db.gelAllMovies("upcomming").size > 0){
-            Log.d("MSJ", "GET upcomming")
-            val listMoviesUpcomming = ListMoviesUpcomming()
-            listMoviesUpcomming.results = db.gelAllMovies("upcomming")
-            postEvent(GeneralEvent.SUCCESS_RESPONCE, listMoviesUpcomming)
-        }else{
-            apiService.apiClient.getUpcoming(
-                page,
-                MyApplication.getContext().getString(R.string.api_key)
-            ).enqueue(object : Callback<String?> {
-                @RequiresApi(Build.VERSION_CODES.N)
-                override fun onResponse(call: Call<String?>, response: Response<String?>) {
-                    val responce = gson.fromJson(response.body(), ListMoviesUpcomming::class.java)
-                    val listUpc = responce as ListMoviesUpcomming
-                    listUpc.results.stream().forEach { elt -> elt.type = "upcomming" }
-                    insertMovies(listUpc.results)
+        CoroutineScope(Dispatchers.Unconfined).launch {
+            if (db.gelAllMovies("upcomming").size > 0) {
+                Log.d("MSJ", "GET upcomming")
+                val listMoviesUpcomming = ListMoviesUpcomming()
+                listMoviesUpcomming.results = db.gelAllMovies("upcomming")
+                postEvent(GeneralEvent.SUCCESS_RESPONCE, listMoviesUpcomming)
+            } else {
+                val response =
+                    apiService.apiClient!!.getUpcoming(
+                        page,
+                        MyApplication.getContext().getString(R.string.api_key)
+                    )
+                if (response!!.isSuccessful) {
+                    val listUpc = gson.fromJson(response.body(), ListMoviesUpcomming::class.java) as ListMoviesUpcomming
+                    listUpc.results?.stream()!!.forEach { elt -> elt.type = "upcomming" }
+                    insertMovies(listUpc.results!!)
                     postEvent(GeneralEvent.SUCCESS_RESPONCE, listUpc)
-                }
-
-                override fun onFailure(call: Call<String?>, t: Throwable) {
+                } else {
                     postEvent(
                         GeneralEvent.ERROR,
                         MyApplication.getContext().getString(R.string.errorConnectivity)
                     )
                 }
-            })
+            }
         }
     }
 
     init {
-        apiService = ApiServiceSingleton.apiServiceHolder.apiService
+        apiService = ApiServiceSingleton.instance.apiService
         gson = Gson()
         db = getInstance(MyApplication.getContext())!!.moviewsDao()
     }

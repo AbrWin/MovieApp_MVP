@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         changeFragment(ViewHome::class.java,null)
-        ApiServiceSingleton.getInstance().apiService.initApiService()
+        ApiServiceSingleton.instance.apiService.initApiService()
     }
 
     override fun onBackPressed() {

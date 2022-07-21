@@ -33,11 +33,12 @@ class ViewHome : BaseView(), HomeMvp.View, AdapterMovies.onItemClickListener, Vi
         return rootView
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         retryBtn.setOnClickListener(this)
         includeRecomm.setOnClickListener(this)
-        if(Connectivity.isOnline(context)){
+        if(Connectivity.isOnline(context!!)){
             showContets(true)
             getInfoService()
         }else{
@@ -87,11 +88,11 @@ class ViewHome : BaseView(), HomeMvp.View, AdapterMovies.onItemClickListener, Vi
                 }
             }
             is ListMoviesUpcomming -> {
-                initAdapter(responce.results, upcommingRecycler)
+                initAdapter(responce.results!!, upcommingRecycler)
             }
 
             is ListMoviesPopular -> {
-                initAdapter(responce.results, popularRecycler)
+                initAdapter(responce.results!!, popularRecycler)
             }
         }
     }
@@ -113,7 +114,7 @@ class ViewHome : BaseView(), HomeMvp.View, AdapterMovies.onItemClickListener, Vi
     override fun onClick(view: View?) {
         when(view!!.id){
             R.id.retryBtn->{
-                if(Connectivity.isOnline(context)){
+                if(Connectivity.isOnline(context!!)){
                     showContets(true)
                     getInfoService()
                 }else{

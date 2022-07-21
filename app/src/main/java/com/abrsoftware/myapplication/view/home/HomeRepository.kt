@@ -40,7 +40,6 @@ class HomeRepository : PostEvent(), HomeMvp.Repository {
         }
 
         if (db.gelAllMovies("popular").size > 0) {
-            Log.d("MSJ", "GET popular")
             val listMoviesPopular = ListMoviesPopular()
             listMoviesPopular.results = db.gelAllMovies("popular")
             postEvent(GeneralEvent.SUCCESS_RESPONCE, listMoviesPopular)
